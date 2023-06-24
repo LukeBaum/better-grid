@@ -50,6 +50,10 @@ You essentially want to copy these two folders into your Fiji folder. You should
 
 Optional: once you do this, you can go to the /jars/Lib subfolder inside your Fiji folder. You should see a subfolder here called "bettergrid". If you wish, you can place that folder in a .zip file (bettergrid.zip) and rename it to bettergrid.jar, then delete the bettergrid folder. When Fiji is launched, it will find the script files inside the "bettergrid" folder, whether it is directly in the /jars/Lib subfolder, or inside a .jar file like /jars/Lib/bettergrid.jar. (Putting things inside a .jar file like this does not make sense when you are making edits. This is more for simplifying deployment.)
 
+## Usage
+
+Once installed, you can find Better Grid on the Analyze menu. Go to Analyze -> Tools -> Better Grid... which is probably at the bottom of the menu.
+
 ## Additional Information
 
 - Better Grid is written in Jython.
