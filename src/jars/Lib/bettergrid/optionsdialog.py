@@ -8,6 +8,8 @@ from bettergrid.settings import Settings
 
 class OptionsDialog(JDialog):
 
+        squaredString = u'\u00B2'
+
 	def __init__(self, imp):
 	
 		# Only continue if there is an active image.
@@ -56,7 +58,7 @@ class OptionsDialog(JDialog):
 		
 		unitButtonGroup = ButtonGroup()
 		
-		self.unitPixelsRadioButton = JRadioButton("pixels", False)
+		self.unitPixelsRadioButton = JRadioButton("pixels" + OptionsDialog.squaredString, False)
 		self.unitOtherRadioButton = JRadioButton("N/A", False)
 			
 		unitButtonGroup.add(self.unitPixelsRadioButton)
@@ -64,13 +66,13 @@ class OptionsDialog(JDialog):
 
 		self.options = Settings(True)
 		
-		self.cellAreaLabel = JLabel("Cell Area (pixels):")
+		self.cellAreaLabel = JLabel("Cell Area (pixels" + OptionsDialog.squaredString + "):")
 		self.cellAreaSpinner = JSpinner(SpinnerNumberModel(self.options.cellArea, 3, 1000000, 1))
 		
-		self.gridXOffsetLabel = JLabel("Grid X Offset:")
+		self.gridXOffsetLabel = JLabel("Grid X Offset (pixels):")
 		self.gridXOffsetSpinner = JSpinner(SpinnerNumberModel(self.options.offsetX, 0, 1000000, 1))
 		
-		self.gridYOffsetLabel = JLabel("Grid Y Offset:")
+		self.gridYOffsetLabel = JLabel("Grid Y Offset (pixels):")
 		self.gridYOffsetSpinner = JSpinner(SpinnerNumberModel(self.options.offsetY, 0, 1000000, 1))
 		
 		for spinner in [self.cellAreaSpinner, self.gridXOffsetSpinner, self.gridYOffsetSpinner]:
@@ -94,10 +96,12 @@ class OptionsDialog(JDialog):
 			self.unitPixelsRadioButton.setSelected(True)
 			self.unitOtherRadioButton.setVisible(False)
 		else:
-			self.cellAreaLabel.setText("Cell Area (" + self.unit + "):")
+			self.cellAreaLabel.setText("Cell Area (" + self.unit + OptionsDialog.squaredString + "):")
 			self.unitOtherRadioButton.setSelected(True)
-			self.unitOtherRadioButton.setText(self.unit)
-			self.unitOtherRadioButton.addItemListener(RadioHandler)			
+			self.unitOtherRadioButton.setText(self.unit + OptionsDialog.squaredString)
+			self.unitOtherRadioButton.addItemListener(RadioHandler)
+			self.gridXOffsetLabel.setText("Grid X Offset (" + self.unit + "):")
+			self.gridYOffsetLabel.setText("Grid Y Offset (" + self.unit + "):")
 		
 		self.add(self.unitLabel)
 		self.unitLabel.setBounds(20, 20, 75, 25)
@@ -231,7 +235,11 @@ class RadioListener(ItemListener):
 	def itemStateChanged(self, e):
 		if self.parent is not None:
 			if e.getStateChange() == ItemEvent.SELECTED:
-				self.parent.cellAreaLabel.setText("Cell Area (" + self.parent.unit + "):")
+				self.parent.cellAreaLabel.setText("Cell Area (" + self.parent.unit + OptionsDialog.squaredString + "):")
+				self.parent.gridXOffsetLabel.setText("Grid X Offset (" + self.parent.unit + "):")
+                                self.parent.gridYOffsetLabel.setText("Grid Y Offset (" + self.parent.unit + "):")
 			elif e.getStateChange() == ItemEvent.DESELECTED:
-				self.parent.cellAreaLabel.setText("Cell Area (pixels):")
+				self.parent.cellAreaLabel.setText("Cell Area (pixels" + OptionsDialog.squaredString + "):")
+				self.parent.gridXOffsetLabel.setText("Grid X Offset (pixels):")
+                                self.parent.gridYOffsetLabel.setText("Grid Y Offset (pixels):")
 			self.parent.drawGrid()
